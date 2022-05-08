@@ -135,7 +135,7 @@ class CommandLineUtils:
             self.m_cmd_topic,
             "<str>",
             "Topic to publish, subscribe to (optional, default='test/topic').",
-            default="test/topic",
+            default="sdk/test/Python",
         )
         self.register_command(
             self.m_cmd_message,
