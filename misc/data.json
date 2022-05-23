@@ -1,0 +1,14 @@
+{
+    "position": {
+        "long": 121212,
+        "lat": 12151
+    },
+    "temperature": 1511,
+    "humidity": 15151,
+    "stamp": 45151515,
+    "pm": {
+        "2.5": 5454,
+        "10": 51151
+    },
+    "device_id": "BliBlaBlubb"
+}
