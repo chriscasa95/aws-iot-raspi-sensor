@@ -5,6 +5,8 @@ from awsiot import mqtt_connection_builder
 import argparse
 import http, sys
 
+from sensor.Sensor import Sensor
+
 # Read in command-line parameters
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -129,6 +131,16 @@ if __name__ == "__main__":
     # Future.result() waits until a result is available
     connect_future.result()
     print("Connected!")
+
+    while True:
+
+        sleep(10)
+
+        sensor = Sensor(lat=47.679006, long=9.162831, device_id="C3")
+
+        mqtt_connection.publish(
+            topic=topic, payload=sensor.measure().json, qos=mqtt.QoS.AT_LEAST_ONCE
+        )
 
     # Disconnect
     print("Disconnecting...")
