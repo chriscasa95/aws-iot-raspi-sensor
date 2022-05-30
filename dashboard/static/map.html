@@ -81,7 +81,8 @@ crossorigin=""/>
   </main>
 </div>
 
-<div class="modal" tabindex="-1" id="dataModal">
+<div class="modal" tabindex="-1" id="dataModal" data-bs-target=false>
+    <!-- <style>#dataModal {background-color: rgba(0,0,0,.0001) !important;}</style> -->
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -91,6 +92,9 @@ crossorigin=""/>
         <div class="modal-body" id="dataModalBody">
           <p>Modal body text goes here.</p>
         </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="dataModelButton">Show Details</button>
+          </div>
       </div>
     </div>
   </div>
