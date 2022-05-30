@@ -15,7 +15,7 @@ window.addEventListener('load', function () {
             }
         },
         title: {
-            text: 'Live random data for Temp and Humidity'
+            text: ''
         },
         subtitle: {
             text: ''
@@ -46,10 +46,16 @@ window.addEventListener('load', function () {
             }
         },
         series: [{
-            name: 'Humdity',
+            name: 'Temperature',
             data: []
         }, {
-            name: 'Temperature',
+            name: 'Humidity',
+            data: []
+        }, {
+            name: 'PM2.5',
+            data: []
+        }, {
+            name: 'PM10',
             data: []
         }],
         responsive: {
@@ -93,6 +99,18 @@ async function requestData() {
             shift2 = series2.data.length > 20; // shift if the series is longer than 20
         // add the point
         chart.series[1].addPoint(point2, true, shift2);
+
+        const point3 = [ts, plotData[3][idx]];
+        const series3 = chart.series[2],
+            shift3 = series3.data.length > 20; // shift if the series is longer than 20
+        // add the point
+        chart.series[2].addPoint(point3, true, shift3);
+
+        const point4 = [ts, plotData[4][idx]];
+        const series4 = chart.series[3],
+            shift4 = series4.data.length > 20; // shift if the series is longer than 20
+        // add the point
+        chart.series[3].addPoint(point4, true, shift4);
     }
     // call it again after one second
     setTimeout(requestData, refreshInterval);
