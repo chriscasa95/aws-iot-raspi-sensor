@@ -15,9 +15,11 @@ export async function getData(currentDeviceId, lastRecievedTimestamp) {
     return data;
 }
 
-export async function transformData(data) {
+export async function transformData(data, limit) {
     console.log(data)
-    const plotData = data.Items.reduce((acc, item) => {
+    const plotData = data.Items
+    .slice(-limit)
+    .reduce((acc, item) => {
         if (item.timestamp) {
             acc[0].push(new Date(item.timestamp * 1000).getTime());
             acc[1].push(isNaN(item.temperature) ? null : item.temperature);
