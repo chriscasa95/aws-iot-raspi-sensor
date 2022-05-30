@@ -141,15 +141,23 @@ if __name__ == "__main__":
     connect_future.result()
     print("Connected!")
 
+    i = 0
+    sensor = Sensor(lat=__LAT, long=__LONG, device_id=__DEVICE_ID)
+
     while True:
 
-        sleep(10)
+        sleep(1)
 
-        sensor = Sensor(lat=__LAT, long=__LONG, device_id=__DEVICE_ID)
+        data = sensor.measure().json
+        # print(data)
 
-        mqtt_connection.publish(
-            topic=topic, payload=sensor.measure().json, qos=mqtt.QoS.AT_LEAST_ONCE
-        )
+        if i % 30 == 0:
+
+            mqtt_connection.publish(
+                topic=topic, payload=data, qos=mqtt.QoS.AT_LEAST_ONCE
+            )
+
+        i = i + 1
 
     # Disconnect
     print("Disconnecting...")

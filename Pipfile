@@ -8,6 +8,7 @@ gpiozero = "*"
 awsiotsdk = "*"
 awscrt = "*"
 awsiot = "*"
+pytz = "*"
 
 [dev-packages]
 black = "*"
