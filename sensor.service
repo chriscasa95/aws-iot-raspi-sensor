@@ -5,7 +5,7 @@
 Type=simple
 WorkingDirectory=/home/pi/code
 ExecStart=/home/pi/code/startup.sh
-EnvironmentFile=/home/pi/code/sensor_var.env
+EnvironmentFile=/home/pi/code/aws-iot/keys/sensor_vars.env
 
 [Install]
 WantedBy=multi-user.target
