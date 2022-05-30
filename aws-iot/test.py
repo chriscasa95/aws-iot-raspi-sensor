@@ -3,7 +3,7 @@ from awscrt import mqtt
 from awsiot import mqtt_connection_builder
 
 import argparse
-import http, sys
+import os, sys
 
 from sensor.Sensor import Sensor
 
@@ -122,6 +122,15 @@ def build_direct_mqtt_connection(on_connection_interrupted, on_connection_resume
 
 
 if __name__ == "__main__":
+
+    __DEVICE_ID = os.environ.get("DEVICE_ID")
+    __LONG = float(os.environ.get("LAT"))
+    __LAT = float(os.environ.get("LONG"))
+
+    print(__DEVICE_ID)
+    print(__LONG)
+    print(__LAT)
+
     mqtt_connection = build_direct_mqtt_connection(
         on_connection_interrupted, on_connection_resumed
     )
@@ -136,7 +145,7 @@ if __name__ == "__main__":
 
         sleep(10)
 
-        sensor = Sensor(lat=47.679006, long=9.162831, device_id="C3")
+        sensor = Sensor(lat=__LAT, long=__LONG, device_id=__DEVICE_ID)
 
         mqtt_connection.publish(
             topic=topic, payload=sensor.measure().json, qos=mqtt.QoS.AT_LEAST_ONCE

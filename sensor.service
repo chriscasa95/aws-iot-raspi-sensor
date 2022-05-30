@@ -1,0 +1,10 @@
+[Unit]
+# Abschnitt wird im Artikel systemd/Units beschrieben
+
+[Service]
+Type=simple
+ExecStart=/home/pi/code/startup.sh
+EnviromentFile=/home/pi/code/sensor_var.env
+
+[Install]
+WantedBy=multi-user.target
