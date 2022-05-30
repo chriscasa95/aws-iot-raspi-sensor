@@ -52,6 +52,7 @@ async function on_click(e) {
 		<th scope="col">#</th>
 		<th scope="col">Name</th>
 		<th scope="col">Value</th>
+		<th scope="col">Unit</th>
 	  </tr>
 	</thead>
 	<tbody>
@@ -59,23 +60,27 @@ async function on_click(e) {
 		<th scope="row">1</th>
 		<td>Temperature</td>
 		<td>${plotData[1].slice(-1)}</td>
+		<td>°C</td>
 	  </tr>
 	  <tr>
 		<th scope="row">2</th>
 		<td>Humidity</td>
 		<td>${plotData[2].slice(-1)}</td>
+		<td>%</td>
 	  </tr>
+
 	  <tr>
 		<th scope="row">3</th>
-		<td>PM10</td>
-		<td>${plotData[4].slice(-1)}</td>
-	  </tr>
-	  <tr>
-		<th scope="row">4</th>
 		<td>PM2.5</td>
 		<td>${plotData[3].slice(-1)}</td>
-
+		<td>µg/m³</td>
 	</tr>
+	<tr>
+	<th scope="row">4</th>
+	<td>PM10</td>
+	<td>${plotData[4].slice(-1)}</td>
+	<td>µg/m³</td>
+  </tr>
 	</tbody>
   </table>`;
 	console.log(dataModal._isShown);
