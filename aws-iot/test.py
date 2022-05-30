@@ -45,7 +45,7 @@ parser.add_argument(
     "--clientId",
     action="store",
     dest="clientId",
-    default="__DEVICE_ID",
+    default=__DEVICE_ID,
     help="Targeted client id",
 )
 parser.add_argument(
