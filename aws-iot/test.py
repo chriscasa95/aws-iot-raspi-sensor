@@ -7,6 +7,10 @@ import os, sys
 
 from sensor.Sensor import Sensor
 
+__DEVICE_ID = os.environ.get("DEVICE_ID")
+__LONG = float(os.environ.get("LAT"))
+__LAT = float(os.environ.get("LONG"))
+
 # Read in command-line parameters
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -41,7 +45,7 @@ parser.add_argument(
     "--clientId",
     action="store",
     dest="clientId",
-    default="basicPubSub",
+    default="__DEVICE_ID",
     help="Targeted client id",
 )
 parser.add_argument(
@@ -123,10 +127,6 @@ def build_direct_mqtt_connection(on_connection_interrupted, on_connection_resume
 
 if __name__ == "__main__":
 
-    __DEVICE_ID = os.environ.get("DEVICE_ID")
-    __LONG = float(os.environ.get("LAT"))
-    __LAT = float(os.environ.get("LONG"))
-
     print(__DEVICE_ID)
     print(__LONG)
     print(__LAT)
@@ -154,7 +154,7 @@ if __name__ == "__main__":
         if i % 30 == 0:
 
             mqtt_connection.publish(
-                topic=topic, payload=data, qos=mqtt.QoS.AT_LEAST_ONCE
+                topic=topic, payload=data, qos=mqtt.QoS.AT_MOST_ONCE
             )
 
         i = i + 1
