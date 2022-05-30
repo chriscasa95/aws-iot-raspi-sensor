@@ -1,6 +1,6 @@
 import { availableDevices, getData, transformData, transformDataPoints } from "./data.js";
 
-const refreshInterval = 2000;
+const refreshInterval = 10*1000;
 const graphPointLimit = 20;
 const graphTimespan = 60*60*12;
 let currentDeviceId = 'C3';
