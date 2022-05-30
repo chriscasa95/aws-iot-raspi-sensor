@@ -7,23 +7,18 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Position:
-    lat: float
-    long: float
-
-
-@dataclass
 class SensorData:
     # static
-    pos: Position
-    sensor_id: str
+    lat: float
+    long: float
+    device_id: str
 
     # measurement
     temperature: float
     humidity: float
     pm2_5: float
     pm10: float
-    timestamp: str
+    timestamp: int
 
     @property
     def json(self) -> str:
@@ -31,10 +26,10 @@ class SensorData:
 
 
 class Sensor:
-    def __init__(self, lat: float, long: float, sensor_id: str) -> None:
+    def __init__(self, lat: float, long: float, device_id: str) -> None:
         self.__lat = lat
         self.__long = long
-        self.__sensor_id = sensor_id
+        self.__device_id = device_id
 
         # start values
         self.__temp = 20
@@ -59,12 +54,12 @@ class Sensor:
             start=5, stop=50, decimals=1, dx=0.2, x=self.__pm10
         )
 
-        timestamp = round(time.time(), 6)
+        timestamp = int(time.time())
 
         return SensorData(
             lat=self.__lat,
             long=self.__long,
-            sensor_id=self.__sensor_id,
+            device_id=self.__device_id,
             temperature=self.__temp,
             humidity=self.__humidity,
             pm2_5=self.__pm2_5,
@@ -87,7 +82,7 @@ class Sensor:
 
 
 if __name__ == "__main__":
-    sensor = Sensor(lat=47.679006, long=9.162831, sensor_id="C3")
+    sensor = Sensor(lat=47.679006, long=9.162831, device_id="C3")
 
     while True:
         # print(sensor.measure())
