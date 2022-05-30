@@ -1,6 +1,6 @@
 import { availableDevices, getData, transformData } from "./data.js";
 
-const refreshInterval = 2000
+const refreshInterval = 2000;
 let currentDeviceId = 'C3';
 let lastRecievedTimestamp = 0;
 let chart;
@@ -74,7 +74,7 @@ window.addEventListener('load', function () {
 */
 async function requestData() {
     sensorSelection();
-    const data = await getData(currentDeviceId, lastRecievedTimestamp)
+    const data = await getData(currentDeviceId, lastRecievedTimestamp);
     const plotData = await transformData(data);
     // get last element of the timestamp array plotData[0] = [ts1, ts2, ..., tsn]
     // update lastRecievedTimestamp if array has length of more than 0

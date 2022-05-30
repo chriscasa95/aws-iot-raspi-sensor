@@ -7,7 +7,7 @@ export async function getData(currentDeviceId, lastRecievedTimestamp) {
     let params = { device_id: currentDeviceId, start_timestamp: lastRecievedTimestamp };
     url.search = new URLSearchParams(params).toString();
 
-    let data = {Items: []};
+    let data = { Items: [] };
     const result = await fetch(url);
     if (result.ok) {
         data = await result.json();
@@ -18,9 +18,9 @@ export async function getData(currentDeviceId, lastRecievedTimestamp) {
 export async function transformData(data) {
     const plotData = data.Items.reduce((acc, item) => {
         if (item.timestamp) {
-            acc[0].push(new Date(item.timestamp * 1000).getTime())
-            acc[1].push(isNaN(item.temperature) ? null : item.temperature)
-            acc[2].push(isNaN(item.humidity) ? null : item.humidity)
+            acc[0].push(new Date(item.timestamp * 1000).getTime());
+            acc[1].push(isNaN(item.temperature) ? null : item.temperature);
+            acc[2].push(isNaN(item.humidity) ? null : item.humidity);
         }
         return acc;
     }, [[], [], []]); // initialize array of arrays for arr[0] => timestamps, arr[1] => temperature, arr[2] => humidity
