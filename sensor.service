@@ -1,10 +1,11 @@
 [Unit]
-# Abschnitt wird im Artikel systemd/Units beschrieben
+# Service to launch sensor program
 
 [Service]
 Type=simple
+WorkingDirectory=/home/pi/code
 ExecStart=/home/pi/code/startup.sh
-EnviromentFile=/home/pi/code/sensor_var.env
+EnvironmentFile=/home/pi/code/sensor_var.env
 
 [Install]
 WantedBy=multi-user.target
