@@ -11,5 +11,5 @@ export DEVICE_ID="C3"
 export LAT="47.679006"
 export LONG="9.162831"
 
-python ./test.py -e a27oynsxnin6nw-ats.iot.eu-central-1.amazonaws.com -r keys/root-CA.crt -c keys/test_thing.cert.pem -k keys/test_thing.private.key -id basicPubSub
+python ./test.py -e a27oynsxnin6nw-ats.iot.eu-central-1.amazonaws.com -r keys/root-CA.crt -c keys/certificate.pem -k keys/private.key -id basicPubSub
 
