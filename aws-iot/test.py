@@ -49,7 +49,7 @@ parser.add_argument(
     "--topic",
     action="store",
     dest="topic",
-    default="sdk/test/Python",
+    default="data",
     help="Targeted topic",
 )
 
