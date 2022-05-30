@@ -16,9 +16,17 @@ export async function getData(currentDeviceId, lastRecievedTimestamp) {
 	return data;
 }
 
-export async function transformData(data, limit) {
+export async function transformData(data, limit, interpolate) {
 	console.log(data);
-	const plotData = data.Items.slice(-limit).reduce(
+	let plotData = data.Items;
+	const delta = Math.floor(plotData.length / interpolate);
+	if (interpolate != 0 && delta > 0) {
+		plotData = plotData.filter((item, idx) => {
+			if (idx % delta == 0) return true;
+			else return false;
+		});
+	}
+	return plotData.slice(-limit).reduce(
 		(acc, item) => {
 			if (item.timestamp) {
 				acc[0].push(new Date(item.timestamp * 1000).getTime());
@@ -31,5 +39,40 @@ export async function transformData(data, limit) {
 		},
 		[[], [], [], [], []]
 	); // initialize array of arrays for arr[0] => timestamps, arr[1] => temperature, arr[2] => humidity
-	return plotData;
+}
+
+export async function transformDataPoints(data, limit, interpolate) {
+	console.log(data);
+	let plotData = data.Items;
+	const delta = Math.floor(plotData.length / interpolate);
+	if (interpolate != 0 && delta > 0) {
+		plotData = plotData.filter((item, idx) => {
+			if (idx % delta == 0) return true;
+			else return false;
+		});
+	}
+	return plotData.slice(-limit).reduce(
+		(acc, item) => {
+			if (item.timestamp) {
+				acc[0].push([
+					new Date(item.timestamp * 1000).getTime(),
+					isNaN(item.temperature) ? null : item.temperature,
+				]);
+				acc[1].push([
+					new Date(item.timestamp * 1000).getTime(),
+					isNaN(item.humidity) ? null : item.humidity,
+				]);
+				acc[2].push([
+					new Date(item.timestamp * 1000).getTime(),
+					isNaN(item.pm2_5) ? null : item.pm2_5,
+				]);
+				acc[3].push([
+					new Date(item.timestamp * 1000).getTime(),
+					isNaN(item.pm10) ? null : item.pm10,
+				]);
+			}
+			return acc;
+		},
+		[[], [], [], []]
+	); // initialize array of point series for highcharts
 }
