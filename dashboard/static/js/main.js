@@ -31,7 +31,7 @@ window.addEventListener('load', function () {
             minPadding: 0.2,
             maxPadding: 0.2,
             title: {
-                text: 'Value',
+                text: '',
                 margin: 80
             }
         },
@@ -48,16 +48,16 @@ window.addEventListener('load', function () {
             }
         },
         series: [{
-            name: 'Temperature',
+            name: 'Temperature [°C]',
             data: []
         }, {
-            name: 'Humidity',
+            name: 'Humidity [%]',
             data: []
         }, {
-            name: 'PM2.5',
+            name: 'PM2.5 [µg/m³]',
             data: []
         }, {
-            name: 'PM10',
+            name: 'PM10 [µg/m³]',
             data: []
         }],
         responsive: {
