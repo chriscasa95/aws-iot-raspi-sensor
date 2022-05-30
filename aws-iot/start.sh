@@ -7,9 +7,9 @@ printf "\nRunning pub/sub sample application...\n"
 # python ../aws-iot-samples/pubsub.py --endpoint a27oynsxnin6nw-ats.iot.eu-central-1.amazonaws.com --ca_file keys/root-CA.crt --cert keys/test_thing.cert.pem --key keys/test_thing.private.key  --client_id basicPubSub
 
 # SDK2 own
-export DEVICE_ID="C3"
-export LAT="47.679006"
-export LONG="9.162831"
+export DEVICE_ID="Schänzlebrücke"
+export LAT="47.673468"
+export LONG="9.157934"
 
-python ./test.py -e a27oynsxnin6nw-ats.iot.eu-central-1.amazonaws.com -r keys/root-CA.crt -c keys/certificate.pem -k keys/private.key -id basicPubSub
+python ./test.py -e a27oynsxnin6nw-ats.iot.eu-central-1.amazonaws.com -r keys/root-CA.crt -c keys/certificate.crt -k keys/private.key -id basicPubSub
 
