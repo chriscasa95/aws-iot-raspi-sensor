@@ -76,9 +76,9 @@ class Sensor:
         self: float, start: float, stop: float, decimals: int, dx: float, x: float
     ) -> float:
 
-        if x < start:
+        if x < start or x < 0:
             value = x + random.uniform(0, dx)
-        if x > stop:
+        elif x > stop:
             value = x + random.uniform(-dx, 0)
         else:
             value = x + random.uniform(-dx, dx)
