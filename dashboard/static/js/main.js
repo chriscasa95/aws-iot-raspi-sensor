@@ -1,6 +1,6 @@
+import { availableDevices, getData, transformData } from "./data.js";
+
 const refreshInterval = 2000
-const dataApiUrl = 'https://zuyvro6601.execute-api.eu-central-1.amazonaws.com/default/IIoTLambdaApiMicroservice';
-const availableDevices = ['C3', 'HTWG', 'Uni']
 let currentDeviceId = 'C3';
 let lastRecievedTimestamp = 0;
 let chart;
@@ -74,47 +74,28 @@ window.addEventListener('load', function () {
 */
 async function requestData() {
     sensorSelection();
-    let url = new URL(dataApiUrl);
-    let params = { device_id: currentDeviceId, start_timestamp: lastRecievedTimestamp };
-    url.search = new URLSearchParams(params).toString();
+    const data = await getData(currentDeviceId, lastRecievedTimestamp)
+    const plotData = await transformData(data);
+    // get last element of the timestamp array plotData[0] = [ts1, ts2, ..., tsn]
+    // update lastRecievedTimestamp if array has length of more than 0
+    lastRecievedTimestamp = plotData[0].length ? plotData[0][plotData[0].length - 1] / 1000 : lastRecievedTimestamp;
+    console.log(plotData, "\nNew lasrRcTs: ", lastRecievedTimestamp);
 
-    const result = await fetch(url);
-    if (result.ok) {
-        const data = await result.json();
-        const plotData = await transformData(data);
-        // get last element of the timestamp array plotData[0] = [ts1, ts2, ..., tsn]
-        // update lastRecievedTimestamp if array has length of more than 0
-        lastRecievedTimestamp = plotData[0].length ? plotData[0][plotData[0].length - 1] / 1000 : lastRecievedTimestamp;
-        console.log(plotData, "\nNew lasrRcTs: ", lastRecievedTimestamp);
+    for (const [idx, ts] of plotData[0].entries()) {
+        const point = [ts, plotData[1][idx]];
+        const series = chart.series[0],
+            shift = series.data.length > 20; // shift if the series is longer than 20
+        // add the point
+        chart.series[0].addPoint(point, true, shift);
 
-        for (const [idx, ts] of plotData[0].entries()) {
-            const point = [ts, plotData[1][idx]];
-            const series = chart.series[0],
-                shift = series.data.length > 20; // shift if the series is longer than 20
-            // add the point
-            chart.series[0].addPoint(point, true, shift);
-
-            const point2 = [ts, plotData[2][idx]];
-            const series2 = chart.series[1],
-                shift2 = series2.data.length > 20; // shift if the series is longer than 20
-            // add the point
-            chart.series[1].addPoint(point2, true, shift2);
-        }
-        // call it again after one second
-        setTimeout(requestData, refreshInterval);
+        const point2 = [ts, plotData[2][idx]];
+        const series2 = chart.series[1],
+            shift2 = series2.data.length > 20; // shift if the series is longer than 20
+        // add the point
+        chart.series[1].addPoint(point2, true, shift2);
     }
-}
-
-async function transformData(data) {
-    const plotData = data.Items.reduce((acc, item) => {
-        if (item.timestamp) {
-            acc[0].push(new Date(item.timestamp * 1000).getTime())
-            acc[1].push(isNaN(item.temperature) ? null : item.temperature)
-            acc[2].push(isNaN(item.humidity) ? null : item.humidity)
-        }
-        return acc;
-    }, [[], [], []]); // initialize array of arrays for arr[0] => timestamps, arr[1] => temperature, arr[2] => humidity
-    return plotData;
+    // call it again after one second
+    setTimeout(requestData, refreshInterval);
 }
 
 async function sensorSelection() {
