@@ -90,7 +90,7 @@ async function on_click(e) {
 }
 
 async function buttonClicked() {
-	window.location.href = `/dashboard/static/index.html?device_id=${last_marker.target.options.device_id}`;
+	window.location.href = `./index.html?device_id=${last_marker.target.options.device_id}`;
 }
 
 init();
