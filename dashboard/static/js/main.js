@@ -1,7 +1,8 @@
-import { availableDevices, getData, transformData } from "./data.js";
+import { availableDevices, getData, transformData, transformDataPoints } from "./data.js";
 
 const refreshInterval = 2000;
 const graphPointLimit = 20;
+const graphTimespan = 60*60*12;
 let currentDeviceId = 'C3';
 let lastRecievedTimestamp = 0;
 let chart;
@@ -81,38 +82,23 @@ window.addEventListener('load', function () {
 */
 async function requestData() {
     sensorSelection();
-    const data = await getData(currentDeviceId, lastRecievedTimestamp);
-    const plotData = await transformData(data, graphPointLimit);
+    //const data = await getData(currentDeviceId, lastRecievedTimestamp);
+    //const plotData = await transformData(data, graphPointLimit, 20);
+
+    const data = await getData(currentDeviceId, (new Date().getTime() / 1000) - graphTimespan);
+    const newPD = await transformDataPoints(data, graphPointLimit, 20);
+
     // get last element of the timestamp array plotData[0] = [ts1, ts2, ..., tsn]
     // update lastRecievedTimestamp if array has length of more than 0
-    lastRecievedTimestamp = plotData[0].length ? plotData[0][plotData[0].length - 1] / 1000 : lastRecievedTimestamp;
-    console.log(plotData, "\nNew lasrRcTs: ", lastRecievedTimestamp);
-    
-    for (const [idx, ts] of plotData[0].entries()) {
-        const point = [ts, plotData[1][idx]];
-        const series = chart.series[0],
-            shift = series.data.length > graphPointLimit; // shift if the series is longer than the defined limit
-        // add the point
-        chart.series[0].addPoint(point, true, shift);
+    //lastRecievedTimestamp = plotData[0].length ? plotData[0][plotData[0].length - 1] / 1000 : lastRecievedTimestamp;
+    //console.log("\nNew lasrRcTs: ", lastRecievedTimestamp);
 
-        const point2 = [ts, plotData[2][idx]];
-        const series2 = chart.series[1],
-            shift2 = series2.data.length > graphPointLimit;
-        
-        chart.series[1].addPoint(point2, true, shift2);
+    chart.series[0].setData(newPD[0], true);
+    chart.series[1].setData(newPD[1], true);
+    chart.series[2].setData(newPD[2], true);
+    chart.series[3].setData(newPD[3], true);
+    chart.redraw(true);
 
-        const point3 = [ts, plotData[3][idx]];
-        const series3 = chart.series[2],
-            shift3 = series3.data.length > graphPointLimit;
-        
-        chart.series[2].addPoint(point3, true, shift3);
-
-        const point4 = [ts, plotData[4][idx]];
-        const series4 = chart.series[3],
-            shift4 = series4.data.length > graphPointLimit;
-
-        chart.series[3].addPoint(point4, true, shift4);
-    }
     // call it again after one second
     setTimeout(requestData, refreshInterval);
 }
