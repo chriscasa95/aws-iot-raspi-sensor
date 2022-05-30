@@ -80,17 +80,25 @@ crossorigin=""/>
     <style>#map { height: 94%; margin-top: 1%;}</style>
   </main>
 </div>
+
+<div class="modal" tabindex="-1" id="dataModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="dataModalHeader">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="dataModalBody">
+          <p>Modal body text goes here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 
 </html>
 
    
-
-
-<script>
-  var map = L.map('map').setView([47.679006, 9.162831], 14);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© OpenStreetMap'
-}).addTo(map);
+<script type="module" src="./js/map.js">
 </script>
