@@ -1,6 +1,7 @@
 const refreshInterval = 2000
 const dataApiUrl = 'https://zuyvro6601.execute-api.eu-central-1.amazonaws.com/default/IIoTLambdaApiMicroservice';
-const sensorsApiUrl = '';
+const availableDevices = ['C3', 'HTWG', 'Uni']
+let currentDeviceId = 'C3';
 let lastRecievedTimestamp = 0;
 let chart;
 
@@ -72,8 +73,9 @@ window.addEventListener('load', function () {
 * Request data from the server, add it to the graph and set a timeout to request again
 */
 async function requestData() {
+    sensorSelection();
     let url = new URL(dataApiUrl);
-    let params = {device_id: "1", start_timestamp: lastRecievedTimestamp};
+    let params = { device_id: currentDeviceId, start_timestamp: lastRecievedTimestamp };
     url.search = new URLSearchParams(params).toString();
 
     const result = await fetch(url);
@@ -82,7 +84,7 @@ async function requestData() {
         const plotData = await transformData(data);
         // get last element of the timestamp array plotData[0] = [ts1, ts2, ..., tsn]
         // update lastRecievedTimestamp if array has length of more than 0
-        lastRecievedTimestamp = plotData[0].length ? plotData[0][plotData[0].length - 1]/1000 : lastRecievedTimestamp; 
+        lastRecievedTimestamp = plotData[0].length ? plotData[0][plotData[0].length - 1] / 1000 : lastRecievedTimestamp;
         console.log(plotData, "\nNew lasrRcTs: ", lastRecievedTimestamp);
 
         for (const [idx, ts] of plotData[0].entries()) {
@@ -105,12 +107,25 @@ async function requestData() {
 
 async function transformData(data) {
     const plotData = data.Items.reduce((acc, item) => {
-        if (item.timestamp){
+        if (item.timestamp) {
             acc[0].push(new Date(item.timestamp * 1000).getTime())
             acc[1].push(isNaN(item.temperature) ? null : item.temperature)
             acc[2].push(isNaN(item.humidity) ? null : item.humidity)
         }
         return acc;
-    }, [[],[],[]]); // initialize array of arrays for arr[0] => timestamps, arr[1] => temperature, arr[2] => humidity
+    }, [[], [], []]); // initialize array of arrays for arr[0] => timestamps, arr[1] => temperature, arr[2] => humidity
     return plotData;
+}
+
+async function sensorSelection() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const deviceIdParam = urlParams.get('device_id');
+    if (currentDeviceId == deviceIdParam) {
+        return;
+    }
+    if (availableDevices.indexOf(deviceIdParam) >= 0) {
+        currentDeviceId = deviceIdParam;
+        lastRecievedTimestamp = 0;
+        document.getElementById('dropdownMenuLink').innerHTML = "Sensors | <b>" + currentDeviceId + "</b>";
+    }
 }
