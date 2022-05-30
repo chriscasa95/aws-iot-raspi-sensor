@@ -35,7 +35,7 @@
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">
+                            <a class="nav-link active" aria-current="page" href="index.html">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="feather feather-home align-text-bottom"
@@ -47,16 +47,16 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="map.html">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="feather feather-bar-chart-2 align-text-bottom"
+                                    stroke-linejoin="round" class="feather feather-layers align-text-bottom"
                                     aria-hidden="true">
-                                    <line x1="18" y1="20" x2="18" y2="10"></line>
-                                    <line x1="12" y1="20" x2="12" y2="4"></line>
-                                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                    <polyline points="2 17 12 22 22 17"></polyline>
+                                    <polyline points="2 12 12 17 22 12"></polyline>
                                 </svg>
-                                Details
+                                Map
                             </a>
                         </li>
                     </ul>
@@ -68,16 +68,17 @@
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Dashboard</h1>
                     <div class="dropdown">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                          Sensors | <b>C3</b>
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Sensors | <b>C3</b>
                         </a>
-                      
+
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                          <li><a class="dropdown-item" href="./index.html?device_id=C3">C3</a></li>
-                          <li><a class="dropdown-item" href="./index.html?device_id=HTWG">HTWG</a></li>
-                          <li><a class="dropdown-item" href="./index.html?device_id=Raspi">Raspi</a></li>
+                            <li><a class="dropdown-item" href="./index.html?device_id=C3">C3</a></li>
+                            <li><a class="dropdown-item" href="./index.html?device_id=HTWG">HTWG</a></li>
+                            <li><a class="dropdown-item" href="./index.html?device_id=Raspi">Raspi</a></li>
                         </ul>
-                      </div>
+                    </div>
                 </div>
 
                 <h2>Chart</h2>
