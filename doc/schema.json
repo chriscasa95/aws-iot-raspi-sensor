@@ -5,11 +5,15 @@
     "properties": {
         "lat": {
             "title": "Latitude",
-            "type": "number"
+            "type": "number",
+            "minimum": -90,
+            "maximum": 90
         },
         "long": {
             "title": "Longitude",
-            "type": "number"
+            "type": "number",
+            "minimum": -180,
+            "maximum": 180
         },
         "device_id": {
             "title": "Device Id",
@@ -17,23 +21,30 @@
         },
         "temperature": {
             "title": "Temperature",
-            "type": "number"
+            "type": "number",
+            "minimum": -50,
+            "maximum": 100
         },
         "humidity": {
             "title": "Humidity",
-            "type": "number"
+            "type": "number",
+            "minimum": 0
+
         },
         "pm2_5": {
             "title": "Pm2.5 Particle Count",
-            "type": "number"
+            "type": "number",
+            "minimum": 0
         },
         "pm10": {
             "title": "Pm10 Particle Count",
-            "type": "number"
+            "type": "number",
+            "minimum": 0
         },
         "timestamp": {
             "title": "Timestamp",
-            "type": "integer"
+            "type": "integer",
+            "minimum": 0
         }
     },
     "required": [
