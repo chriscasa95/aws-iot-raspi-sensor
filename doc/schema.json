@@ -1,0 +1,43 @@
+{
+    "title": "Message",
+    "description": "Message format sent by IoT clients.",
+    "type": "object",
+    "properties": {
+        "lat": {
+            "title": "Latitude",
+            "type": "number"
+        },
+        "long": {
+            "title": "Longitude",
+            "type": "number"
+        },
+        "device_id": {
+            "title": "Device Id",
+            "type": "string"
+        },
+        "temperature": {
+            "title": "Temperature",
+            "type": "number"
+        },
+        "humidity": {
+            "title": "Humidity",
+            "type": "number"
+        },
+        "pm2_5": {
+            "title": "Pm2.5 Particle Count",
+            "type": "number"
+        },
+        "pm10": {
+            "title": "Pm10 Particle Count",
+            "type": "number"
+        },
+        "timestamp": {
+            "title": "Timestamp",
+            "type": "integer"
+        }
+    },
+    "required": [
+        "device_id",
+        "timestamp"
+    ]
+}
