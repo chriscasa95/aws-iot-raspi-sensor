@@ -45,7 +45,10 @@ File should look like this:
     LAT=47.667558
     LONG=9.179454
 
-Than install or enable `sensor.service`. This can for example be done by using the firstrun.sh script at the first boot.
+Than install or enable `sensor.service`. This can for example be done by using the `firstrun.sh` script at the first boot. This shellscript is viewable in the `raspi` folder.
+
+# For website details ...
+... take a look at the `dashboard` folder.
 
 # Important
 
