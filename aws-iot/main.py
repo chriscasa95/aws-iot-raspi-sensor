@@ -11,8 +11,16 @@ __DEVICE_ID = os.environ.get("DEVICE_ID")
 __LONG = float(os.environ.get("LAT"))
 __LAT = float(os.environ.get("LONG"))
 
-# Read in command-line parameters
+__sending = True
+
+"""
+************************************************************
+*   Read in command-line parameters
+************************************************************
+"""
+
 parser = argparse.ArgumentParser()
+
 parser.add_argument(
     "-e",
     "--endpoint",
@@ -37,9 +45,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "-p", "--port", action="store", dest="port", type=int, help="Port number override"
-)
-# parser.add_argument("-w", "--websocket", action="store_true", dest="useWebsocket", default=False,
-#                     help="Use MQTT over WebSocket")
+
 parser.add_argument(
     "-id",
     "--clientId",
@@ -60,14 +66,19 @@ parser.add_argument(
 args = parser.parse_args()
 
 endpoint = args.endpoint
-# host = args.host
 rootCAPath = args.rootCAPath
 certificatePath = args.certificatePath
 privateKeyPath = args.privateKeyPath
 port = args.port
-# useWebsocket = args.useWebsocket
 clientId = args.clientId
 topic = args.topic
+
+
+"""
+************************************************************
+*   MQTT functions
+************************************************************
+"""
 
 # Callback when connection is accidentally lost.
 def on_connection_interrupted(connection, error, **kwargs):
@@ -97,16 +108,8 @@ def on_resubscribe_complete(resubscribe_future):
 
     for topic, qos in resubscribe_results["topics"]:
         if qos is None:
-            sys.exit("Server rejected resubscribe to topic: {}".format(topic))
-
-
-# Callback when the subscribed topic receives a message
-def on_message_received(topic, payload, dup, qos, retain, **kwargs):
-    print("Received message from topic '{}': {}".format(topic, payload))
-    global received_count
-    received_count += 1
-    # if received_count == cmdUtils.get_command("count"):
-    #     received_all_event.set()
+            print("Server rejected resubscribe to topic: {}".format(topic))
+            __sending = False
 
 
 def build_direct_mqtt_connection(on_connection_interrupted, on_connection_resumed):
@@ -124,6 +127,11 @@ def build_direct_mqtt_connection(on_connection_interrupted, on_connection_resume
         keep_alive_secs=6,
     )
 
+"""
+************************************************************
+*   Main
+************************************************************
+"""
 
 if __name__ == "__main__":
 
@@ -144,22 +152,21 @@ if __name__ == "__main__":
     i = 0
     sensor = Sensor(lat=__LAT, long=__LONG, device_id=__DEVICE_ID)
 
-    while True:
+    while __sending == True:
 
+        # measure every second
         sleep(1)
-
         data = sensor.measure().json
-        # print(data)
 
         if i % 30 == 0:
 
+            # pulish every 30  seconds
             mqtt_connection.publish(
                 topic=topic, payload=data, qos=mqtt.QoS.AT_MOST_ONCE
             )
 
         i = i + 1
 
-    # Disconnect
     print("Disconnecting...")
     disconnect_future = mqtt_connection.disconnect()
     disconnect_future.result()

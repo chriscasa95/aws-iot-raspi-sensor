@@ -40,20 +40,23 @@ XKBOPTIONS=""
 
 # install
 apt update -y
-# apt upgrade -y
 apt install git -y
-apt install pipenv -y
+# apt install pipenv -y
 
+# create folder
 mkdir /home/pi/code
+#clone git repro
 git clone https://github.com/chriscasa95/aws-iot-raspi-sensor.git /home/pi/code
 
+# copy keys and service file
 cp -r /boot/keys /home/pi/code/aws-iot
-
 cp /home/pi/code/sensor.service /etc/systemd/system/sensor.service
 
+# start system deamon
 systemctl start sensor.service
 systemctl enable sensor.service
 
+# delete keys folder
 rm -r /boot/keys
 
 KBEOF

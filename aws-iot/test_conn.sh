@@ -1,1 +1,0 @@
-openssl s_client -connect a27oynsxnin6nw-ats.iot.eu-central-1.amazonaws.com:8443 -CAfile AmazonRootCA1.pem -cert 7d119b88cfb07c9a356ad4523185b77907c95da72397054a980750caa8c99e60-certificate.pem.crt -key 7d119b88cfb07c9a356ad4523185b77907c95da72397054a980750caa8c99e60-private.pem.key
